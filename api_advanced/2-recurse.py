@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Gets the titles of all the hot posts of a subreddit with recursion"""
+"""Gets the titles of all the hot posts of a subreddit"""
 import requests
 
 
 def recurse(subreddit, hot_list=None, after=None):
-    """Returns a list with the titles of all hot posts, None if no results"""
+    """Returns a list of all the hot titles, or None if there are none"""
     if hot_list is None:
         hot_list = []
 
@@ -17,8 +17,10 @@ def recurse(subreddit, hot_list=None, after=None):
     if response.status_code != 200:
         return None
 
-    data = response.json().get("data")
-    for post in data.get("children"):
+    data = response.json()
+    data = data.get("data")
+    posts = data.get("children")
+    for post in posts:
         hot_list.append(post.get("data").get("title"))
 
     after = data.get("after")

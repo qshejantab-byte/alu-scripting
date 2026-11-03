@@ -4,7 +4,7 @@ import requests
 
 
 def number_of_subscribers(subreddit):
-    """Returns the number of subscribers, 0 if the subreddit is not valid"""
+    """Returns the number of subscribers, or 0 if the subreddit is invalid"""
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {"User-Agent": "my-api-script/1.0"}
     response = requests.get(url, headers=headers, allow_redirects=False)
@@ -12,7 +12,8 @@ def number_of_subscribers(subreddit):
     if response.status_code != 200:
         return 0
 
-    data = response.json().get("data")
+    data = response.json()
+    data = data.get("data")
     if data is None:
         return 0
     return data.get("subscribers", 0)

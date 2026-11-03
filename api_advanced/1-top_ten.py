@@ -4,7 +4,7 @@ import requests
 
 
 def top_ten(subreddit):
-    """Prints the first 10 hot titles, or None if the subreddit is not valid"""
+    """Prints the first 10 hot titles, or None if the subreddit is invalid"""
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     headers = {"User-Agent": "my-api-script/1.0"}
     params = {"limit": 10}
@@ -15,6 +15,8 @@ def top_ten(subreddit):
         print(None)
         return
 
-    posts = response.json().get("data").get("children")
+    data = response.json()
+    data = data.get("data")
+    posts = data.get("children")
     for post in posts:
         print(post.get("data").get("title"))

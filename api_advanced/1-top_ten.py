@@ -4,15 +4,13 @@ import requests
 
 
 def top_ten(subreddit):
-    """Prints the first 10 hot titles, or OK if reddit does not answer"""
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    """Prints the first 10 hot titles, or None if the subreddit is invalid"""
+    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
     headers = {"User-Agent": "my-api-script/1.0"}
-    params = {"limit": 10}
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
+    response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code != 200:
-        print("OK")
+        print(None)
         return
 
     data = response.json()
